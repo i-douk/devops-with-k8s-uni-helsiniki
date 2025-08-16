@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput-app
+  template:
+    metadata:
+      labels:
+        app: logoutput-app
+    spec:
+      containers:
+        - name: logoutput-container
+          image: logoutput:latest
