@@ -1,5 +1,20 @@
-const handler = async (_req : Request):Promise<Response> => {
-  return new Response("Server running on port 4242");
-}
- 
-Deno.serve({port: 4243, hostname: "0.0.0.0"}, handler);
+import { Application } from "jsr:@oak/oak/application";
+import { Router } from "jsr:@oak/oak/router";
+
+const router = new Router();
+router.get("/", (ctx) => {
+  ctx.response.body = `<!DOCTYPE html>
+    <html>
+      <head><title>Todos!</title><head>
+      <body>
+        <h1>Hello todos!</h1>
+      </body>
+    </html>
+  `;
+});
+
+const app = new Application();
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen({ port: 3000 , host: "0.0.0.0" });

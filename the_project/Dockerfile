@@ -1,12 +1,12 @@
 FROM denoland/deno:2.1.7
 
 # The port that your application listens to.
-EXPOSE 4243
+EXPOSE 3000
 
 WORKDIR /app
 
 # Prefer not to run as root.
-USER deno
+USER root
 
 # These steps will be re-run upon each file change in your working directory:
 COPY . .

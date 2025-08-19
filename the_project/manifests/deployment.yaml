@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: theproject-container
-          image: theproject:latest
+          image: the_project:latest
