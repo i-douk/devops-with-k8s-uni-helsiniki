@@ -9,3 +9,4 @@
 - [1.6.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/1.6)
 - [1.7.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/1.7)
 - [1.8.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/1.8)
+- [1.9.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/1.9)
