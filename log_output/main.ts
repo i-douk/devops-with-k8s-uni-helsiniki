@@ -1,12 +1,17 @@
 import * as uuid from "jsr:@std/uuid";
 
 const randomString = uuid.v1.generate();
-
 const generateLogs = () => {
+  const logEntry =  randomString + "\n";
   setInterval(async () => {
-    const logEntry = new Date().toISOString() + ": " + randomString + "\n";
-      console.log(logEntry)
-  }, 5000);
+      console.log(new Date().toISOString() + ": " + logEntry)
+    }, 5000);
+  return new Date().toISOString() + ": " + logEntry
+  
 };
 
-generateLogs();
+generateLogs()
+
+Deno.serve( { port : 4242} , (_req) => {
+  return new Response( generateLogs() )
+})
