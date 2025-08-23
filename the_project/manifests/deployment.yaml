@@ -12,6 +12,13 @@ spec:
       labels:
         app: theproject-app
     spec:
+      volumes:
+        - name: img-storage
+          persistentVolumeClaim:
+            claimName: img-claim
       containers:
         - name: theproject-container
           image: the_project:latest
+          volumeMounts:
+            - name: img-storage
+              mountPath: /usr/src/app/files
