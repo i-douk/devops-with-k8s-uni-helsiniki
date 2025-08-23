@@ -12,6 +12,13 @@ spec:
       labels:
         app: pingpong-app
     spec:
+      volumes:
+        - name: shared-logs
+          persistentVolumeClaim:
+            claimName: log-ping-claim
       containers:
         - name: pingpong-container
-          image: pingpong:latest
+          image: pingpong:latest 
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /usr/src/app/files
