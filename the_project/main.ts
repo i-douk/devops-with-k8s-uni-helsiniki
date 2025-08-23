@@ -10,6 +10,8 @@ const imageFilePath = `${basePath}/${imageFileName}`;
 fetchAndSaveImage(imageFilePath);
 setInterval(() => fetchAndSaveImage(imageFilePath), 1000 * 60 * 60);
 
+const todos = ["do something", "do something else", "do something more"];
+
 const router = new Router();
 
 // Serve HTML
@@ -20,6 +22,11 @@ router.get("/", (ctx) => {
       <body>
         <h1>Todos App</h1>
         <img src="/files/${imageFileName}" alt="Photo" />
+        <input type="text" maxLength="140" id="todo" placeholder="Add a todo" />
+        <button id="addTodo">Add</button>
+        <ul>
+          ${todos.map((todo) => `<li>${todo}</li>`).join("")}
+        </ul>
       </body>
       <footer>
         <p> Devops with Kubernetes - Last updated: ${new Date().toISOString()}</p>
