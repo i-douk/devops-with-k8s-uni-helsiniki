@@ -1,10 +1,14 @@
 const logDir = "/usr/src/app/files";
 const filePath = `${logDir}/logs.txt`;
+
+const pings = await fetch(`http://pingpong-svc:2347`).then(res => res.text());
+
 const handler = async (_req: Request): Promise<Response> => {
 const file = await Deno.open(filePath);
   try {
     const body = await Deno.readFile(filePath);
-    return new Response(body, {
+    const bodyText = new TextDecoder().decode(body);
+    return new Response(bodyText + "\n" + pings, {
       headers: { "Content-Type": "text/plain" },
     });
   } catch (error) {
