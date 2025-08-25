@@ -66,6 +66,7 @@ export function addEventListeners() {
     });
     if (response.ok) {
       render(document, todos);
+      document.querySelector("input").value = "";
     } else {
       console.error("Something went wrong.");
     }

@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: img-pv
+  namespace: project
 spec:
   storageClassName: local-storage
   capacity:
