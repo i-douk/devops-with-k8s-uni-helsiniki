@@ -1,0 +1,25 @@
+body {
+    background-color: rgb(209, 238, 247);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  
+  h1 {
+    color: navy;
+    
+  }
+
+  img {
+    height: 300px;
+    width: auto
+  }
+
+  ul {
+    width: auto;
+    list-style:circle;
+    margin: 20px
+  }

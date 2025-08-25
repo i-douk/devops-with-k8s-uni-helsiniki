@@ -1,48 +1,88 @@
-import { Application } from "jsr:@oak/oak/application";
-import { Router } from "jsr:@oak/oak/router";
-import { send } from "jsr:@oak/oak/send";
+
+const port = 8081;
+import { Application } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm.ts";
+import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
+import { render } from "./client.js";
+
+
+// fetch and save image every hour
 import { fetchAndSaveImage } from "./utils.ts";
-
 const basePath = "/usr/src/app/files";
-const imageFileName = "image.png";
-const imageFilePath = `${basePath}/${imageFileName}`;
-
+const imageFilePath = `${basePath}/image.png`;
 fetchAndSaveImage(imageFilePath);
-setInterval(() => fetchAndSaveImage(imageFilePath), 1000 * 60 * 60);
+setInterval(fetchAndSaveImage, 1000 * 60 * 60);
 
-const todos = ["do something", "do something else", "do something more"];
-
+// read html content
+const html = await Deno.readTextFile("./client.html");
+const todos = ['Todo 1', 'Todo 2', 'Todo 3'];
 const router = new Router();
 
-// Serve HTML
-router.get("/", (ctx) => {
-  ctx.response.body = `<!DOCTYPE html>
-    <html>
-      <head><title>Todos!</title></head>
-      <body>
-        <h1>Todos App</h1>
-        <img src="/files/${imageFileName}" alt="Photo" />
-        <input type="text" maxLength="140" id="todo" placeholder="Add a todo" />
-        <button id="addTodo">Add</button>
-        <ul>
-          ${todos.map((todo) => `<li>${todo}</li>`).join("")}
-        </ul>
-      </body>
-      <footer>
-        <p> Devops with Kubernetes - Last updated: ${new Date().toISOString()}</p>
-      </footer>
-    </html>`;
-});
-
-// Serve static files under /files
-router.get("/files/:path+", async (ctx) => {
-  await send(ctx, ctx.params.path, {
-    root: basePath,
+// serve client.js
+router.get("/client.js", async (context) => {
+  context.response.type = "application/javascript";
+  await context.send({
+    root: "./",
+    index: "client.js",
   });
 });
 
+router.get("/", (context) => {
+  const document = new DOMParser().parseFromString(
+    "<!DOCTYPE html>",
+    "text/html",
+  );
+  render(document, { todos });
+  context.response.type = "text/html";
+  context.response.body = `${document?.body.innerHTML}${html}`;
+  
+});
+
+// serve todos
+router.get("/data", (context) => {
+  context.response.body = todos;
+});
+
+// serve image
+router.get("/image", async (context) => {
+  const imageBuf = await Deno.readFile(imageFilePath);
+  context.response.body = imageBuf;
+  context.response.headers.set('Content-Type', 'image/png');
+});
+
+// add todo
+router.post("/add", async (context) => {
+  const { value } = await context.request.body({ type: "json" });
+  const { item } = await value;
+  todos.push(item);
+  context.response.status = 200;
+});
+
+// serve css
+router.get("/index.css", async (context) => {
+  try {
+      const file = await Deno.readFile("./index.css");
+      context.response.body = file;
+      context.response.headers.set("Content-Type", "text/css");
+  } catch (error) {
+      console.error("Failed to read CSS file:", error);
+      context.response.status = 500;
+      context.response.body = "Internal Server Error";
+  }
+});
+// create application
 const app = new Application();
+
+app.use(oakCors({
+  origin: [`http://localhost:${port}`, `http://localhost:8000`],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+}));
+
+// use router
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen({ port: 3000, host: "0.0.0.0" });
+
+await app.listen({ port : 8081 });
