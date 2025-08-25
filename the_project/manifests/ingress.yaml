@@ -13,17 +13,3 @@ spec:
             name: theproject-svc
             port:
               number: 2345
-      - path: /logs
-        pathType: Prefix
-        backend:
-          service:
-            name: logoutput-svc
-            port:
-              number: 2346
-      - path: /pingpong
-        pathType: Prefix
-        backend:
-          service:
-            name: pingpong-svc
-            port:
-              number: 2347
