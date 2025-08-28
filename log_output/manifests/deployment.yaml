@@ -25,6 +25,17 @@ spec:
             mountPath: /usr/src/app/files
         - name: logoutput-reader
           image: logoutput-reader:latest
+          env:
+            - name: FILE_CONTENT
+              valueFrom:
+                configMapKeyRef:
+                  name: log-pingpong-configmap
+                  key: information.txt
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-pingpong-configmap
+                  key: message
           volumeMounts:
           - name: shared-logs
             mountPath: /usr/src/app/files
