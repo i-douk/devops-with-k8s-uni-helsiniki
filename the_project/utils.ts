@@ -1,5 +1,5 @@
-export const fetchAndSaveImage = async (localPath: string): Promise<void>  => {
-    const response = await fetch("https://picsum.photos/1200");
+export const fetchAndSaveImage = async (localPath: string , imageSource: string): Promise<void>  => {
+    const response = await fetch(imageSource);
     
     if (!response.body) {
       throw new Error("Failed to fetch image.");

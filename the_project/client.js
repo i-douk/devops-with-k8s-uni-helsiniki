@@ -1,4 +1,3 @@
-const port = 8081;
 let isFirstRender = true;
 
 // Simple HTML sanitization to prevent XSS vulnerabilities.
@@ -11,7 +10,7 @@ function sanitizeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
-export async function render(document, todos) {
+export async function render(document, todos, port = 8081) {
   if (typeof window !== "undefined" && window.performance && window.performance.navigation.type === 1) {
     isFirstRender = true;
   }
@@ -47,7 +46,7 @@ export async function render(document, todos) {
       ulElement.outerHTML = html;
     } else {
       isFirstRender = true;
-      render(document, todos);
+      render(document, todos, port);
     }
   }
 }
@@ -55,6 +54,7 @@ export async function render(document, todos) {
 export function addEventListeners() {
   document.querySelector("button").addEventListener("click", async () => {
     const item = document.querySelector("input").value;
+    const port = 8081;
     const todos = Array.from(document.querySelectorAll("li"), e => e.innerText);
     todos.push(item);
     const response = await fetch("/add", {
@@ -65,7 +65,7 @@ export function addEventListeners() {
       body: JSON.stringify({ item }),
     });
     if (response.ok) {
-      render(document, todos);
+      render(document, todos, port);
       document.querySelector("input").value = "";
     } else {
       console.error("Something went wrong.");

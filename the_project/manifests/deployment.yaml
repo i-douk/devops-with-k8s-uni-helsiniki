@@ -20,6 +20,17 @@ spec:
       containers:
         - name: theproject-container
           image: the_project:latest
+          env:
+            - name: IMAGE_SOURCE
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: image-source
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: port
           volumeMounts:
             - name: img-storage
               mountPath: /usr/src/app/files

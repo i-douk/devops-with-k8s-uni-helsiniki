@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: project-configmap
+  namespace: project
+data:
+  image-source: 'https://picsum.photos/1200'
+  port: '8081'

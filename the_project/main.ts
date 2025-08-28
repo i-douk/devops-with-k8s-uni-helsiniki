@@ -1,5 +1,4 @@
 
-const port = 8081;
 import { Application } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.36-alpha/deno-dom-wasm.ts";
@@ -11,8 +10,14 @@ import { render } from "./client.js";
 import { fetchAndSaveImage } from "./utils.ts";
 const basePath = "/usr/src/app/files";
 const imageFilePath = `${basePath}/image.png`;
-fetchAndSaveImage(imageFilePath);
-setInterval(fetchAndSaveImage, 1000 * 60 * 60);
+const imageSource = Deno.env.get("IMAGE_SOURCE");
+const port = Deno.env.get("PORT");
+if (typeof imageSource === "string") {
+  fetchAndSaveImage(imageFilePath, imageSource);
+  setInterval(() => fetchAndSaveImage(imageFilePath, imageSource), 1000 * 60 * 60);
+} else {  
+  console.error("IMAGE_SOURCE environment variable is not set.");
+}
 
 // read html content
 const html = await Deno.readTextFile("./client.html");
@@ -33,7 +38,7 @@ router.get("/", (context) => {
     "<!DOCTYPE html>",
     "text/html",
   );
-  render(document, { todos });
+  render(document, { todos }, port);
   context.response.type = "text/html";
   context.response.body = `${document?.body.innerHTML}${html}`;
   
