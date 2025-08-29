@@ -1,0 +1,70 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: read-wiki-reminder
+  namespace: project
+spec:
+  schedule: "0 * * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: read-wiki
+            image: postgres:12.3-alpine
+            imagePullPolicy: Never
+            env:
+            - name: DB
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: db
+            - name: USER
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: user
+            - name: HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: db-port
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: SECRET
+            command:
+            - /bin/sh
+            - -c
+            - |
+              apk add --no-cache curl postgresql-client
+              LOCATION=$(curl -s -I "https://en.wikipedia.org/wiki/Special:Random" | grep -i "location:" | awk '{print $2}' | tr -d '\r')
+              echo $LOCATION
+              # check fetched location
+              if [ -z "$LOCATION" ]; then
+                echo "Failed to fetch Location header from Wikipedia."
+                exit 1
+              fi
+
+              # Use the Location URL as the todo
+              todo=" read $LOCATION"
+
+              # Insert the todo into the todos table
+              psql "postgresql://$USER:$POSTGRES_PASSWORD@$HOST/$DB" <<EOF
+                INSERT INTO todos (todo) VALUES ($$${todo}$$)
+              EOF
+
+              # Check if the psql command succeeded
+              if [ $? -eq 0 ]; then
+                echo "Todo inserted successfully: $todo"
+              else
+                echo "Failed to insert todo into the database."
+                exit 1
+              fi
+          restartPolicy: Never

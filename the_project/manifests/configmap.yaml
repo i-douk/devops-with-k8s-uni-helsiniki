@@ -6,3 +6,8 @@ metadata:
 data:
   image-source: 'https://picsum.photos/1200'
   port: '8081'
+  db: 'postgres'
+  user: 'postgres'
+  host: 'postgres-svc.project.svc.cluster.local'
+  db-port: '5432'
+  password: 'postgres'

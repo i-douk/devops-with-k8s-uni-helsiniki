@@ -31,6 +31,26 @@ spec:
                 configMapKeyRef:
                   name: project-configmap
                   key: port
+            - name: DB
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: db
+            - name: USER
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: user
+            - name: HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: project-configmap
+                  key: db-port
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
