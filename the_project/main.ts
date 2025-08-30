@@ -16,7 +16,7 @@ export const sql = new Client({
 // create table if not exists
 await sql.connect()
 await sql.queryObject`
-  CREATE TABLE IF NOT EXISTS todos (id SERIAL PRIMARY KEY, todo VARCHAR(255))
+  CREATE TABLE IF NOT EXISTS todos (id SERIAL PRIMARY KEY, todo VARCHAR(140))
 `
 await sql.end()
 
@@ -51,8 +51,25 @@ if (typeof imageSource === "string") {
 
 // read html content
 const html = await Deno.readTextFile("./client.html");
-const todos = ['Todo 1', 'Todo 2', 'Todo 3'];
 const router = new Router();
+
+// get todos from db
+// fetch todos from db
+async function fetchTodos() {
+  await sql.connect();
+  try {
+    const result = await sql.queryObject`
+     SELECT * FROM todos
+    `
+    return result.rows
+  } catch(error){
+    console.log(error)
+  } finally {
+    sql.end()
+  }
+}
+
+const todos = await fetchTodos() || [{ todo : 'Enter your todos here'}];
 
 // serve client.js
 router.get("/client.js", async (context) => {
@@ -91,7 +108,7 @@ router.post("/add", async (context) => {
   const { value } = await context.request.body({ type: "json" });
   const { item } = await value;
   await saveTodo(item);
-  todos.push(item);
+  todos.push({ todo : item});
   context.response.status = 200;
 });
 

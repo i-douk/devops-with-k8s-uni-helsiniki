@@ -26,7 +26,7 @@ export async function render(document, todos, port = 8081) {
       let html = `<html><body><img src=${imageUrl} alt='image'></body></html>`;  
       html += "<ul>";  
       for (const item of todos) {
-        html += `<li>${sanitizeHtml(item)}</li>`;
+        html += `<li>${sanitizeHtml(item.todo)}</li>`;
       }
       html += "</ul><input>";
       html += "<button>Add</button></body></html>";
@@ -40,7 +40,7 @@ export async function render(document, todos, port = 8081) {
     if (ulElement) {
       let html = "<ul>";
       for (const item of todos) {
-        html += `<li>${sanitizeHtml(item)}</li>`;
+        html += `<li>${sanitizeHtml(item.todo)}</li>`;
       }
       html += "</ul>";
       ulElement.outerHTML = html;
