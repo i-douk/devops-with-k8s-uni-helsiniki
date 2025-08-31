@@ -26,3 +26,6 @@
 - [2.8.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/2.8)
 - [2.9.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/2.9)
 - [2.10.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/2.10)
+
+# Chapter 4
+- [3.1.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/3.1)
