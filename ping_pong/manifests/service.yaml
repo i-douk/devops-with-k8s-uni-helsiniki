@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: pingpong-svc
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: pingpong-app
   ports:
-    - port: 80
+    - port: 2347
       protocol: TCP
-      targetPort: 4243
+      targetPort: 2347
 
 ---
 

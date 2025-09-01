@@ -24,7 +24,7 @@ async function savePing(ping: string) {
   }
 }
 
-Deno.serve( { port : 4243} , (_req) => {
+Deno.serve( { port : 2347} , (_req) => {
   pingpong++;
   savePing(String(pingpong));
   return new Response( "Ping:" + String(pingpong) )

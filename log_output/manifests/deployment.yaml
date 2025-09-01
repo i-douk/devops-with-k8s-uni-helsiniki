@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: logoutput-dep
-  namespace: exercises
 spec:
   replicas: 1
   selector:
@@ -19,12 +18,12 @@ spec:
             claimName: log-ping-claim
       containers:
         - name: logoutput-writer
-          image: logoutput-writer:latest
+          image: gcr.io/dwk-submissions/logoutput-writer:latest
           volumeMounts:
           - name: shared-logs
             mountPath: /usr/src/app/files
         - name: logoutput-reader
-          image: logoutput-reader:latest
+          image: gcr.io/dwk-submissions/logoutput-reader:latest
           env:
             - name: FILE_CONTENT
               valueFrom:
