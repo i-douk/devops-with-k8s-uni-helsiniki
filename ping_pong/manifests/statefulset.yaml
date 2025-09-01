@@ -26,6 +26,8 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: SECRET
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "md5"
   volumeClaimTemplates:
     - metadata:
         name: data
