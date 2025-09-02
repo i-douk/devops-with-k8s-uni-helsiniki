@@ -4,12 +4,10 @@ resources:
   - manifests/configmap.yaml
   - manifests/cronjob.yaml
   - manifests/deployment.yaml
-  - manifests/ingress.yaml
+  - manifests/gateway.yaml
+  - manifests/route.yaml
   - manifests/statefulset.yaml
   - manifests/service.yaml
   - manifests/persistentvolumeclaim.yaml
-images:
-  - name: gcr.io/dwk-submissions/project:latest
-    newName: gke-project/project
 
 

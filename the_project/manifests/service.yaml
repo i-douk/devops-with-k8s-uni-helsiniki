@@ -4,7 +4,7 @@ metadata:
   name: theproject-svc
   namespace: project
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: theproject-app
   ports:
