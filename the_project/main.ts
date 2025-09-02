@@ -127,15 +127,11 @@ router.get("/index.css", async (context) => {
 // create application
 const app = new Application();
 
-app.use(oakCors({
-  origin: [`http://localhost:${port}`, `http://localhost:8000`],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-}));
+app.use(oakCors({ origin: "*" }));
 
 // use router
 app.use(router.routes());
 app.use(router.allowedMethods());
 
 
-await app.listen({ port : 8081 });
+await app.listen({ port: 8081 });

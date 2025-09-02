@@ -4,7 +4,7 @@ metadata:
   name: theproject-svc
   namespace: project
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: theproject-app
   ports:
@@ -14,15 +14,13 @@ spec:
 
 ---
 
----
-
 apiVersion: v1
 kind: Service
 metadata:
   name: postgres-svc
   namespace: project
   labels:
-    app: postgres
+    app: postgres-db
 spec:
   ports:
   - port: 5432

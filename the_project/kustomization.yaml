@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/configmap.yaml
+  - manifests/cronjob.yaml
+  - manifests/deployment.yaml
+  - manifests/ingress.yaml
+  - manifests/statefulset.yaml
+  - manifests/service.yaml
+  - manifests/persistentvolumeclaim.yaml
+images:
+  - name: gcr.io/dwk-submissions/project:latest
+    newName: gke-project/project
+
+

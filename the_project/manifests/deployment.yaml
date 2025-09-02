@@ -19,7 +19,7 @@ spec:
             claimName: img-claim
       containers:
         - name: theproject-container
-          image: the_project:latest
+          image: gke-project/project 
           env:
             - name: IMAGE_SOURCE
               valueFrom:

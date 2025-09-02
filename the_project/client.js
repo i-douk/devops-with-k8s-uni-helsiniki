@@ -16,8 +16,9 @@ export async function render(document, todos, port = 8081) {
   }
 
   if (isFirstRender) {
-    const jsonResponse = await fetch(`http://localhost:${port}/data`);
-    const imageResponse = await fetch(`http://localhost:${port}/image`);
+    const BASE_URL = "http://34.49.211.0"; 
+    const jsonResponse = await fetch(`${BASE_URL}/data`);
+    const imageResponse = await fetch(`${BASE_URL}/image`);
     if (jsonResponse.ok && imageResponse.ok) {
       const jsonData = await jsonResponse.json();
       const todos = jsonData;

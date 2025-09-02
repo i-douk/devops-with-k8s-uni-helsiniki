@@ -4,7 +4,7 @@ metadata:
   name: img-claim
   namespace: project
 spec:
-  storageClassName: local-storage
+  storageClassName: standard-rwo
   accessModes:
     - ReadWriteOnce
   resources:

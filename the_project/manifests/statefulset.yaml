@@ -18,19 +18,23 @@ spec:
         - name: postgresql-db
           image: postgres:latest
           volumeMounts:
-            - name: postgres-volume
-              mountPath: /data
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: SECRET 
+                  key: SECRET
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "md5"
   volumeClaimTemplates:
-      - metadata:
-          name: postgres-volume
-        spec:
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 5Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5G
+        storageClassName: standard
