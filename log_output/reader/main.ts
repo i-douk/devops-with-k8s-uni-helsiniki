@@ -1,7 +1,7 @@
 const logDir = "/usr/src/app/files";
 const filePath = `${logDir}/logs.txt`;
 
-const pings = await fetch("http://pingpong-svc:2347").then(res => res.text());
+const pings = await fetch("http://pingpong-svc:2347/ping").then(res => res.text());
 
 const handler = async (_req: Request): Promise<Response> => {
 const file = await Deno.open(filePath);

@@ -24,8 +24,14 @@ async function savePing(ping: string) {
   }
 }
 
-Deno.serve( { port : 2347} , (_req) => {
-  pingpong++;
-  savePing(String(pingpong));
-  return new Response( "Ping:" + String(pingpong) )
-})
+Deno.serve({ port: 2347, hostname: "0.0.0.0" }, (req) => {
+  if (new URL(req.url).pathname === "/") {
+    return new Response("OK", { status: 200 });
+  }
+  if (new URL(req.url).pathname === "/ping") {
+    pingpong++;
+    savePing(String(pingpong));
+    return new Response("Ping:" + String(pingpong));
+  }
+  return new Response("Not Found", { status: 404 });
+});
