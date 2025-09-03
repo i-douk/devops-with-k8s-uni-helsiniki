@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - the_project/manifests/configmap.yaml
+  - the_project/manifests/cronjob.yaml
+  - the_project/manifests/deployment.yaml
+  - the_project/manifests/gateway.yaml
+  - the_project/manifests/route.yaml
+  - the_project/manifests/statefulset.yaml
+  - the_project/manifests/service.yaml
+  - the_project/manifests/persistentvolumeclaim.yaml
+images:
+  - name: PROJECT/IMAGE
+    newName: gcr.io/dwk-submissions/project:latest
+
+
