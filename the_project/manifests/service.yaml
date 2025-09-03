@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: theproject-app
+    app: dwk-environments
   ports:
     - port: 2345
       protocol: TCP
