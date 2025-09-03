@@ -9,5 +9,8 @@ resources:
   - manifests/statefulset.yaml
   - manifests/service.yaml
   - manifests/persistentvolumeclaim.yaml
+images:
+  - name: PROJECT/IMAGE
+    newName: gcr.io/dwk-submissions/project:latest
 
 
