@@ -34,3 +34,4 @@
 - [3.4.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/3.4)
 - [3.5.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/3.5)
 - [3.6.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/3.6)
+- [3.7.](https://github.com/i-douk/devops-with-k8s-uni-helsiniki/tree/3.7)
