@@ -36,11 +36,10 @@ jobs:
           cluster_name: '${{ env.GKE_CLUSTER }}'
           project_id: '${{ env.PROJECT_ID }}'
           location: '${{ env.GKE_ZONE }}'
-          credentials_json: '${{ secrets.GKE_SA_KEY }}'
       - name : 'Form the image name'
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
       - name: Build
-        run: docker build --tag $IMAGE_TAG .
+        run: docker build --tag $IMAGE_TAG ./the_project/Dockerfile .
       - name: Publish
         run: docker push $IMAGE_TAG
       - name: Set up Kustomize
